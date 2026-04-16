@@ -17,8 +17,14 @@ Fluxo principal proposto:
 
 Representacao resumida:
 
-```text
-Solicitacao -> Aprovacao -> Pedido de Compra -> Recebimento -> Entrada em Estoque -> Consulta e Auditoria
+```mermaid
+flowchart LR
+    A[Solicitante cria requisicao] --> B[Aprovador analisa requisicao]
+    B -->|Aprova| C[Comprador gera pedido de compra]
+    B -->|Rejeita| X[Requisicao encerrada]
+    C --> D[Almoxarife registra recebimento]
+    D --> E[Sistema gera entrada em estoque]
+    E --> F[Consulta de saldo, historico e auditoria]
 ```
 
 ## 3. Regras de negocio iniciais
@@ -30,6 +36,19 @@ Solicitacao -> Aprovacao -> Pedido de Compra -> Recebimento -> Entrada em Estoqu
 - toda entrada de estoque deve estar vinculada a um evento de negocio rastreavel
 - usuarios so podem executar acoes compativeis com seu perfil
 - aprovacoes e rejeicoes devem registrar autor, data e justificativa
+
+### Diagrama de estados da requisicao de compra
+
+```mermaid
+stateDiagram-v2
+    [*] --> EmEdicao
+    EmEdicao --> EmAprovacao: submeter
+    EmAprovacao --> Aprovada: aprovar
+    EmAprovacao --> Rejeitada: rejeitar
+    Aprovada --> ConvertidaEmPedido: gerar pedido
+    ConvertidaEmPedido --> Encerrada: pedido emitido
+    Rejeitada --> Encerrada: arquivar
+```
 
 ## 4. Requisitos funcionais
 

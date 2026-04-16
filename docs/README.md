@@ -17,6 +17,7 @@ Principios de uso:
 - a documentacao deve ser viva e evoluir junto com o projeto
 - backlog operacional detalhado fica no GitHub Projects
 - ADRs registram decisoes arquiteturais relevantes e seu contexto
+- diagramas devem ficar no proprio documento que explicam, em formato versionavel
 - `roadmap-aprendizado.md` permanece como material pessoal de estudo e apresentacao
 
 Leitura sugerida:
@@ -26,14 +27,21 @@ Leitura sugerida:
 4. [04-dados-qualidade.md](./04-dados-qualidade.md)
 5. [05-planejamento-riscos.md](./05-planejamento-riscos.md)
 6. [adr/ADR-001-monolito-modular-devops-first.md](./adr/ADR-001-monolito-modular-devops-first.md)
+7. [adr/ADR-002-diagramas-como-codigo-com-mermaid.md](./adr/ADR-002-diagramas-como-codigo-com-mermaid.md)
 
 Mapa dos artefatos:
 - `01-visao-produto.md`: contexto do produto, objetivos, escopo, stakeholders e perfis de usuario
 - `02-requisitos-processos.md`: requisitos funcionais e nao funcionais, casos de uso e fluxo de negocio
-- `03-arquitetura.md`: visao tecnica, modulos, deployment, operacao e preocupacoes DevOps
-- `04-dados-qualidade.md`: modelo de dados conceitual, estrategia de testes e criterios de aceite
+- `03-arquitetura.md`: visao tecnica, modulos, sequencia critica, deployment, operacao e preocupacoes DevOps
+- `04-dados-qualidade.md`: modelo de dados conceitual, diagrama de dominio, estrategia de testes e criterios de aceite
 - `05-planejamento-riscos.md`: epicos, priorizacao, milestones, riscos, restricoes e dependencias
 - `adr/`: decisoes arquiteturais relevantes
+
+Padrao para diagramas:
+- usar Mermaid em Markdown para manter diagramas versionados no repositorio
+- manter cada diagrama junto do documento que ele explica
+- evitar imagens binarias como fonte principal do conhecimento
+- atualizar diagrama e texto na mesma mudanca sempre que o modelo evoluir
 
 Convencoes:
 - IDs de requisito: `RF-xxx` e `RNF-xxx`

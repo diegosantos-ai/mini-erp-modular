@@ -53,19 +53,40 @@ Camadas sugeridas:
 - `domain`: regras de negocio e entidades
 - `infrastructure`: persistencia, mensageria futura, observabilidade e integracoes
 
+### Sequencia tecnica critica: registrar recebimento
+
+```mermaid
+sequenceDiagram
+    actor Almoxarife
+    participant Frontend
+    participant API
+    participant Recebimento
+    participant PedidoCompra
+    participant Estoque
+    participant Auditoria
+    participant PostgreSQL
+
+    Almoxarife->>Frontend: informa itens recebidos
+    Frontend->>API: POST /recebimentos
+    API->>Recebimento: validar comando
+    Recebimento->>PedidoCompra: consultar saldo pendente
+    PedidoCompra-->>Recebimento: saldo por item
+    Recebimento->>Estoque: gerar entrada de estoque
+    Estoque->>PostgreSQL: persistir movimentacao
+    Recebimento->>Auditoria: registrar evento
+    Auditoria->>PostgreSQL: persistir auditoria
+    API-->>Frontend: recebimento confirmado
+```
+
 ## 5. Visao de contexto
 
-```text
-[Usuario Web]
-    |
-    v
-[Frontend Web]
-    |
-    v
-[API Backend Java]
-    |
-    +--> [Banco de Dados Relacional]
-    +--> [Logs / Metrics / Tracing]
+```mermaid
+flowchart LR
+    U[Usuario Web] --> FE[Frontend Web]
+    FE --> API[API Backend Java]
+    API --> DB[(PostgreSQL)]
+    API --> OBS[Logs, Metrics e Tracing]
+    API --> AUD[Auditoria de Negocio]
 ```
 
 ## 6. Visao de deploy candidata
@@ -79,16 +100,21 @@ Arquitetura operacional inicial sugerida:
 
 Possivel topologia inicial:
 
-```text
-Internet
-  |
-Reverse Proxy
-  |
-  +--> Frontend Container
-  |
-  +--> Backend Container
-          |
-          +--> PostgreSQL
+```mermaid
+flowchart TB
+    GH[GitHub Repository] --> CI[GitHub Actions]
+    TF[Terraform] --> CLOUD[Cloud Environment]
+    CI --> REG[Registry de Imagens]
+    CI --> DEPLOY[Ansible Deploy]
+    DEPLOY --> RP[Reverse Proxy]
+    REG --> FE[Frontend Container]
+    REG --> BE[Backend Container]
+    RP --> FE
+    RP --> BE
+    BE --> DB[(PostgreSQL)]
+    BE --> OBS[Logs, Metrics e Health Checks]
+    CLOUD --> RP
+    CLOUD --> DB
 ```
 
 ## 7. Ambientes

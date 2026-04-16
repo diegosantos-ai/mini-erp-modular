@@ -30,6 +30,102 @@ Relacionamentos conceituais:
 - um `Recebimento` referencia um pedido e gera `MovimentacaoEstoque`
 - cada evento relevante gera um `AuditoriaEvento`
 
+### Diagrama conceitual do dominio
+
+```mermaid
+classDiagram
+    class Usuario {
+        +UUID id
+        +string nome
+        +string email
+    }
+
+    class Perfil {
+        +UUID id
+        +string nome
+    }
+
+    class Produto {
+        +UUID id
+        +string sku
+        +string nome
+    }
+
+    class Fornecedor {
+        +UUID id
+        +string nome
+        +string documento
+    }
+
+    class RequisicaoCompra {
+        +UUID id
+        +status status
+        +dataCriacao
+    }
+
+    class ItemRequisicaoCompra {
+        +UUID id
+        +quantidade
+    }
+
+    class AprovacaoRequisicao {
+        +UUID id
+        +decisao
+        +justificativa
+    }
+
+    class PedidoCompra {
+        +UUID id
+        +status status
+        +prazoEstimado
+    }
+
+    class ItemPedidoCompra {
+        +UUID id
+        +quantidadePedida
+        +quantidadeRecebida
+    }
+
+    class Recebimento {
+        +UUID id
+        +dataRecebimento
+        +status status
+    }
+
+    class ItemRecebimento {
+        +UUID id
+        +quantidadeRecebida
+    }
+
+    class MovimentacaoEstoque {
+        +UUID id
+        +tipoMovimento
+        +quantidade
+    }
+
+    class AuditoriaEvento {
+        +UUID id
+        +evento
+        +dataHora
+    }
+
+    Usuario "1" --> "*" Perfil : possui
+    Usuario "1" --> "*" RequisicaoCompra : cria
+    Usuario "1" --> "*" AprovacaoRequisicao : executa
+    RequisicaoCompra "1" --> "*" ItemRequisicaoCompra : contem
+    ItemRequisicaoCompra "*" --> "1" Produto : referencia
+    RequisicaoCompra "1" --> "0..1" AprovacaoRequisicao : recebe
+    RequisicaoCompra "1" --> "0..1" PedidoCompra : origina
+    PedidoCompra "1" --> "*" ItemPedidoCompra : contem
+    ItemPedidoCompra "*" --> "1" Produto : referencia
+    Fornecedor "1" --> "*" PedidoCompra : atende
+    PedidoCompra "1" --> "*" Recebimento : recebe
+    Recebimento "1" --> "*" ItemRecebimento : contem
+    ItemRecebimento "*" --> "1" Produto : referencia
+    Recebimento "1" --> "*" MovimentacaoEstoque : gera
+    Usuario "1" --> "*" AuditoriaEvento : causa
+```
+
 ## 3. Regras de modelagem
 
 - entidades de negocio devem refletir linguagem do dominio
