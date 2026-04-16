@@ -57,12 +57,15 @@ Leitura recomendada:
 3. [Arquitetura](./docs/03-arquitetura.md)
 4. [Dados e Qualidade](./docs/04-dados-qualidade.md)
 5. [Planejamento, Priorizacao e Riscos](./docs/05-planejamento-riscos.md)
-6. [ADR-001](./docs/adr/ADR-001-monolito-modular-devops-first.md)
+6. [Governanca de Agentes de IA](./docs/06-governanca-agentes-ia.md)
+7. [ADR-001](./docs/adr/ADR-001-monolito-modular-devops-first.md)
+8. [ADR-003](./docs/adr/ADR-003-adotar-governanca-tutor-first-para-agentes-de-ia.md)
 
 ## Organizacao do Repositorio
 
 ```text
 .
+|-- AGENTS.md
 |-- docs/
 |-- application/
 |-- entities/
@@ -75,3 +78,5 @@ Leitura recomendada:
 O `README.md` da raiz funciona como a vitrine do repositorio: apresenta o projeto, o objetivo tecnico e os links principais.
 
 O `docs/README.md` funciona como indice da documentacao oficial: organiza os artefatos de produto, requisitos, arquitetura, qualidade, planejamento e ADRs.
+
+O `AGENTS.md` registra o contrato operacional para agentes de IA neste repositorio.

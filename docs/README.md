@@ -26,8 +26,10 @@ Leitura sugerida:
 3. [03-arquitetura.md](./03-arquitetura.md)
 4. [04-dados-qualidade.md](./04-dados-qualidade.md)
 5. [05-planejamento-riscos.md](./05-planejamento-riscos.md)
-6. [adr/ADR-001-monolito-modular-devops-first.md](./adr/ADR-001-monolito-modular-devops-first.md)
-7. [adr/ADR-002-diagramas-como-codigo-com-mermaid.md](./adr/ADR-002-diagramas-como-codigo-com-mermaid.md)
+6. [06-governanca-agentes-ia.md](./06-governanca-agentes-ia.md)
+7. [adr/ADR-001-monolito-modular-devops-first.md](./adr/ADR-001-monolito-modular-devops-first.md)
+8. [adr/ADR-002-diagramas-como-codigo-com-mermaid.md](./adr/ADR-002-diagramas-como-codigo-com-mermaid.md)
+9. [adr/ADR-003-adotar-governanca-tutor-first-para-agentes-de-ia.md](./adr/ADR-003-adotar-governanca-tutor-first-para-agentes-de-ia.md)
 
 Mapa dos artefatos:
 - `01-visao-produto.md`: contexto do produto, objetivos, escopo, stakeholders e perfis de usuario
@@ -35,6 +37,7 @@ Mapa dos artefatos:
 - `03-arquitetura.md`: visao tecnica, modulos, sequencia critica, deployment, operacao e preocupacoes DevOps
 - `04-dados-qualidade.md`: modelo de dados conceitual, diagrama de dominio, estrategia de testes e criterios de aceite
 - `05-planejamento-riscos.md`: epicos, priorizacao, milestones, riscos, restricoes e dependencias
+- `06-governanca-agentes-ia.md`: contrato de uso de agentes, modos operacionais e gates por risco
 - `adr/`: decisoes arquiteturais relevantes
 
 Padrao para diagramas:
