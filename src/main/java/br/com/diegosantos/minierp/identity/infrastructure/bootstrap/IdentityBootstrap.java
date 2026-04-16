@@ -6,8 +6,11 @@ import br.com.diegosantos.minierp.identity.domain.User;
 import br.com.diegosantos.minierp.identity.infrastructure.persistence.RoleRepository;
 import br.com.diegosantos.minierp.identity.infrastructure.persistence.UserRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 @Component
 public class IdentityBootstrap implements CommandLineRunner {
@@ -15,15 +18,27 @@ public class IdentityBootstrap implements CommandLineRunner {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final boolean adminBootstrapEnabled;
+    private final String adminName;
+    private final String adminEmail;
+    private final String adminPassword;
 
     public IdentityBootstrap(
             RoleRepository roleRepository,
             UserRepository userRepository,
-            PasswordEncoder passwordEncoder
+            PasswordEncoder passwordEncoder,
+            @Value("${identity.bootstrap.admin.enabled:false}") boolean adminBootstrapEnabled,
+            @Value("${identity.bootstrap.admin.name:Administrador}") String adminName,
+            @Value("${identity.bootstrap.admin.email:}") String adminEmail,
+            @Value("${identity.bootstrap.admin.password:}") String adminPassword
     ) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.adminBootstrapEnabled = adminBootstrapEnabled;
+        this.adminName = adminName;
+        this.adminEmail = adminEmail;
+        this.adminPassword = adminPassword;
     }
 
     @Override
@@ -35,14 +50,20 @@ public class IdentityBootstrap implements CommandLineRunner {
         ensureRoleExists(RoleName.ALMOXARIFE);
         ensureRoleExists(RoleName.GESTOR);
 
-        if (userRepository.findByEmail("admin@minierp.local").isEmpty()) {
+        if (!adminBootstrapEnabled) {
+            return;
+        }
+
+        validateAdminBootstrapConfiguration();
+
+        if (userRepository.findByEmail(adminEmail).isEmpty()) {
             Role adminRole = roleRepository.findByName(RoleName.ADMIN)
                     .orElseThrow(() -> new IllegalStateException("Role ADMIN não encontrada"));
 
             User admin = new User(
-                    "Administrador",
-                    "admin@minierp.local",
-                    passwordEncoder.encode("Admin@123")
+                    adminName,
+                    adminEmail,
+                    passwordEncoder.encode(adminPassword)
             );
 
             admin.getRoles().add(adminRole);
@@ -55,5 +76,17 @@ public class IdentityBootstrap implements CommandLineRunner {
         if (roleRepository.findByName(roleName).isEmpty()) {
             roleRepository.save(new Role(roleName));
         }
+    }
+
+    private void validateAdminBootstrapConfiguration() {
+        if (isBlank(adminEmail) || isBlank(adminPassword)) {
+            throw new IllegalStateException(
+                    "Configure identity.bootstrap.admin.email e identity.bootstrap.admin.password para habilitar o bootstrap do admin"
+            );
+        }
+    }
+
+    private boolean isBlank(String value) {
+        return Objects.isNull(value) || value.isBlank();
     }
 }
