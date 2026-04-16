@@ -4,20 +4,25 @@ import br.com.diegosantos.minierp.common.exception.InvalidCredentialsException;
 import br.com.diegosantos.minierp.identity.api.dto.LoginResponse;
 import br.com.diegosantos.minierp.identity.domain.User;
 import br.com.diegosantos.minierp.identity.infrastructure.persistence.UserRepository;
+import br.com.diegosantos.minierp.identity.infrastructure.security.JwtService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.time.OffsetDateTime;
 
 @Service
 public class AuthenticateUserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    public AuthenticateUserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthenticateUserService(
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder,
+            JwtService jwtService
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     public LoginResponse execute(String email, String password) {
@@ -32,10 +37,12 @@ public class AuthenticateUserService {
             throw new InvalidCredentialsException("Credenciais inválidas");
         }
 
+        String token = jwtService.generateToken(user.getEmail());
+
         return new LoginResponse(
-                "token-placeholder",
+                token,
                 "Bearer",
-                OffsetDateTime.now().plusHours(1)
+                jwtService.extractExpiration(token)
         );
     }
 }
