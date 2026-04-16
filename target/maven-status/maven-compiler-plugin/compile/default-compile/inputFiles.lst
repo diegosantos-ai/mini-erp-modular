@@ -1,0 +1,6 @@
+/home/diego/workspace/labs/java/src/main/java/br/com/diegosantos/minierp/MiniErpApplication.java
+/home/diego/workspace/labs/java/src/main/java/br/com/diegosantos/minierp/identity/domain/Role.java
+/home/diego/workspace/labs/java/src/main/java/br/com/diegosantos/minierp/identity/domain/RoleName.java
+/home/diego/workspace/labs/java/src/main/java/br/com/diegosantos/minierp/identity/domain/User.java
+/home/diego/workspace/labs/java/src/main/java/br/com/diegosantos/minierp/identity/infrastructure/persistence/RoleRepository.java
+/home/diego/workspace/labs/java/src/main/java/br/com/diegosantos/minierp/identity/infrastructure/persistence/UserRepository.java
