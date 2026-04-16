@@ -11,6 +11,7 @@ Direcao geral:
 - validar escopo minimo e arquitetura
 - construir uma fundacao operacional antes de ampliar dominio
 - priorizar fluxo ponta a ponta em vez de modulos isolados
+- transformar o projeto em evidencia pratica de operacao de aplicacao Java em nuvem
 
 ## 3. Epicos iniciais
 
@@ -21,8 +22,8 @@ Direcao geral:
 - `E-05`: Pedido de compra
 - `E-06`: Recebimento e estoque
 - `E-07`: Auditoria e dashboard operacional
-- `E-08`: Containerizacao, infraestrutura e deploy
-- `E-09`: Observabilidade, seguranca e hardening
+- `E-08`: Containerizacao, infraestrutura e deploy em OVHcloud
+- `E-09`: Observabilidade, troubleshooting, seguranca e hardening
 - `E-10`: Documentacao final e preparo para demonstracao
 
 ## 4. Ordem sugerida de priorizacao
@@ -52,6 +53,7 @@ Saidas esperadas:
 - padroes de projeto definidos
 - automacao local inicial por Make
 - pipeline de CI inicial
+- stack Spring Boot definida e ambiente Linux alvo esclarecido
 
 ### M2 - Fluxo principal de compras
 
@@ -66,7 +68,8 @@ Saidas esperadas:
 ### M4 - Operacao e nuvem
 
 Saidas esperadas:
-- Docker, Terraform, Ansible e deploy validado
+- Docker, Terraform, Ansible e deploy validado na OVHcloud
+- base de troubleshooting e observabilidade funcionando
 
 ### M5 - Qualidade e apresentacao
 
@@ -74,6 +77,7 @@ Saidas esperadas:
 - observabilidade minima
 - documentacao final
 - roteiro de demonstracao pronto
+- trilha de evolucao para Kubernetes documentada e, se viavel, validada em laboratorio
 
 ## 6. Uso do GitHub Projects
 
@@ -135,9 +139,9 @@ Tipos de item sugeridos:
 ## 9. Dependencias e pre-condicoes
 
 - definicao de stack final do frontend
-- definicao do provedor de nuvem ou topologia alvo
 - configuracao do repositorio e do board no GitHub
 - estrategia de segredos para pipeline e deploy
+- decisao formal da topologia inicial na OVHcloud
 
 ## 10. Criterios para sair do planejamento
 
@@ -146,3 +150,14 @@ Tipos de item sugeridos:
 - arquitetura candidata validada
 - riscos principais compreendidos
 - backlog do primeiro milestone preparado
+
+## 11. Evidencias de portfolio alinhadas a vagas de plataforma
+
+O projeto deve produzir evidencias praticas para os seguintes eixos:
+- operacao de aplicacao Java/Spring Boot
+- pipeline CI/CD com GitHub Actions
+- infraestrutura versionada com Terraform
+- deploy e configuracao com Ansible
+- ambiente Linux em nuvem na OVHcloud
+- Docker no MVP e Kubernetes como trilha de evolucao
+- observabilidade, troubleshooting e diagnostico tecnico

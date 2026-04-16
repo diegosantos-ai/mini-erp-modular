@@ -6,7 +6,7 @@ Definir a visao inicial do Mini-ERP de Compras + Estoque + Recebimento, delimita
 
 ## 2. Declaracao de produto
 
-O projeto visa construir um Mini-ERP web com backend API, frontend acessivel e pipeline de entrega completo, com enfase em engenharia de software e DevOps. O sistema deve permitir controlar o ciclo basico de compras, recebimento e movimentacao de estoque, com rastreabilidade operacional e suporte a auditoria.
+O projeto visa construir um Mini-ERP web com backend Java em Spring Boot, API REST, frontend acessivel e pipeline de entrega completo, com enfase em engenharia de software, plataforma e DevOps. O sistema deve permitir controlar o ciclo basico de compras, recebimento e movimentacao de estoque, com rastreabilidade operacional e suporte a auditoria.
 
 ## 3. Problema a resolver
 
@@ -18,10 +18,12 @@ Empresas pequenas e times internos frequentemente precisam controlar compras e e
 
 Para fins de aprendizado, o sistema tambem deve servir como laboratorio pratico de:
 - modelagem de dominio
-- desenho de API e frontend
+- desenho e operacao de API REST em Java
+- execucao de aplicacoes Spring Boot em ambiente Linux
 - conteinerizacao e infraestrutura como codigo
 - automacao de testes
-- CI/CD, observabilidade e operacao em nuvem
+- CI/CD, observabilidade, troubleshooting e operacao em nuvem
+- automacao com Shell Script e Python
 
 ## 4. Objetivos do produto
 
@@ -32,13 +34,18 @@ Objetivos de negocio:
 
 Objetivos tecnicos:
 - demonstrar uma arquitetura coerente para um sistema corporativo pequeno
+- demonstrar capacidade de sustentar o ciclo completo de entrega e operacao de uma aplicacao Java em producao
 - evidenciar boas praticas de DevOps desde o inicio do projeto
 - permitir deploy reprodutivel, observavel e documentado
+- usar OVHcloud como ambiente principal de nuvem no primeiro ciclo do projeto
+- criar trilha de evolucao de Docker Compose para Kubernetes
 - servir como portfolio tecnico com rastreabilidade entre decisao, implementacao e operacao
 
 ## 5. Escopo inicial proposto
 
 Escopo MVP:
+- backend Java com Spring Boot
+- API REST versionada e documentada
 - cadastro de produtos
 - cadastro de fornecedores
 - criacao de requisicoes de compra
@@ -50,6 +57,9 @@ Escopo MVP:
 - autenticacao e autorizacao basica por perfis
 - trilha de auditoria para eventos principais
 - dashboard operacional inicial
+- logs estruturados, health checks e observabilidade minima
+- deploy inicial em OVHcloud Public Cloud
+- automacao complementar com Shell Script e Python quando fizer sentido operacional
 
 Escopo futuro desejavel:
 - notas fiscais e financeiro
@@ -58,6 +68,8 @@ Escopo futuro desejavel:
 - notificacoes
 - importacao e exportacao de dados
 - indicadores operacionais
+- deploy gerenciado em Kubernetes
+- banco gerenciado e topologia mais resiliente
 
 Fora de escopo neste momento:
 - contabilidade completa
@@ -74,6 +86,8 @@ Fora de escopo neste momento:
 - rastreabilidade e auditabilidade sao requisitos centrais
 - acessibilidade web faz parte da qualidade do produto
 - automacao deve existir desde cedo, inclusive para ambiente e deploy
+- observabilidade e troubleshooting fazem parte do produto tecnico
+- aprender fundamentos de Linux, redes e seguranca importa tanto quanto subir servicos
 
 ## 7. Stakeholders
 
@@ -125,6 +139,8 @@ Stakeholders secundarios:
 - trilha de auditoria visivel para eventos criticos
 - ambiente local e ambiente em nuvem reproduziveis
 - pipeline automatizado com build, testes e deploy
+- aplicacao Spring Boot executavel, conteinerizada e observavel
+- ambiente Linux em nuvem operado com Terraform, Ansible e GitHub Actions
 - documentacao suficiente para explicar produto, arquitetura e operacao
 
 ## 10. Pontos para validacao
@@ -133,3 +149,4 @@ Stakeholders secundarios:
 - confirmar se o estoque sera inicialmente de um unico deposito
 - confirmar se o frontend sera SPA desacoplada ou interface server-side
 - confirmar profundidade desejada de observabilidade no MVP
+- confirmar profundidade desejada da trilha inicial de Kubernetes

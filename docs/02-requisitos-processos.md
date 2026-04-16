@@ -86,21 +86,30 @@ stateDiagram-v2
 - `RF-018`: o sistema deve registrar trilha de auditoria para eventos criticos
 - `RF-019`: o sistema deve oferecer dashboard inicial com indicadores operacionais
 - `RF-020`: o sistema deve expor API para operacoes principais do dominio
+- `RF-021`: o sistema deve expor endpoints de health check e prontidao operacional
+- `RF-022`: o sistema deve permitir diagnostico basico por logs e correlacao de eventos
 
 ## 5. Requisitos nao funcionais
 
 - `RNF-001`: o sistema deve ser acessivel por teclado e seguir principios essenciais de acessibilidade web
 - `RNF-002`: o sistema deve possuir interface responsiva para desktop e tablet
-- `RNF-003`: o sistema deve ser conteinerizavel com Docker
-- `RNF-004`: a infraestrutura deve ser provisionavel com Terraform
-- `RNF-005`: a configuracao e o deploy devem ser automatizaveis com Ansible
-- `RNF-006`: o projeto deve ter comandos padronizados via Makefile
-- `RNF-007`: o pipeline de CI/CD deve executar build, testes e validacoes minimas
-- `RNF-008`: o sistema deve disponibilizar logs estruturados e health checks
-- `RNF-009`: o sistema deve possuir controle de acesso baseado em perfis
-- `RNF-010`: o sistema deve manter historico auditavel das acoes principais
-- `RNF-011`: o projeto deve priorizar simplicidade operacional e baixo custo de execucao
-- `RNF-012`: o projeto deve permitir deploy em nuvem por meio de esteira reprodutivel
+- `RNF-003`: o backend deve ser implementado em Java com Spring Boot
+- `RNF-004`: a API deve seguir padrao REST para as operacoes principais do dominio
+- `RNF-005`: o sistema deve ser conteinerizavel com Docker
+- `RNF-006`: a infraestrutura deve ser provisionavel com Terraform
+- `RNF-007`: a configuracao e o deploy devem ser automatizaveis com Ansible
+- `RNF-008`: o projeto deve ter comandos padronizados via Makefile
+- `RNF-009`: o pipeline de CI/CD deve executar build, testes e validacoes minimas
+- `RNF-010`: o sistema deve disponibilizar logs estruturados, health checks e metricas basicas
+- `RNF-011`: o sistema deve possuir controle de acesso baseado em perfis
+- `RNF-012`: o sistema deve manter historico auditavel das acoes principais
+- `RNF-013`: o projeto deve priorizar simplicidade operacional e baixo custo de execucao
+- `RNF-014`: o projeto deve permitir deploy em nuvem por meio de esteira reprodutivel
+- `RNF-015`: o primeiro deploy em nuvem deve usar OVHcloud como provedor principal
+- `RNF-016`: o ambiente remoto inicial deve rodar em Linux e permitir automacao por Shell Script e Python quando necessario
+- `RNF-017`: o projeto deve possuir estrategia documentada de troubleshooting para startup, deploy, rede, integracao e performance basica
+- `RNF-018`: o projeto deve possuir trilha de evolucao documentada para Kubernetes sem tornar Kubernetes obrigatorio no primeiro deploy
+- `RNF-019`: o projeto deve explicitar preocupacoes basicas de rede, portas, DNS, proxy reverso, segredos e exposicao de servicos
 
 ## 6. Casos de uso
 
@@ -171,7 +180,9 @@ Resultado esperado:
 Mapeamento resumido:
 - compras: `RF-005` a `RF-012`
 - estoque: `RF-013` a `RF-017`
-- governanca e operacao: `RF-018` a `RF-020` e `RNF-003` a `RNF-012`
+- governanca e operacao: `RF-018` a `RF-022` e `RNF-009` a `RNF-019`
+- plataforma Java e API: `RNF-003` e `RNF-004`
+- runtime e nuvem: `RNF-005` a `RNF-008`, `RNF-015` e `RNF-016`
 - experiencia e acessibilidade: `RNF-001` e `RNF-002`
 
 ## 9. Pontos para refinamento posterior

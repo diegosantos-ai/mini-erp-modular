@@ -16,21 +16,24 @@ Descrever a arquitetura candidata do sistema, com foco em separacao de responsab
 ## 3. Visao de arquitetura candidata
 
 Direcao inicial proposta:
-- backend em Java como linguagem principal
+- backend em Java com Spring Boot como stack principal
 - API HTTP para operacoes do dominio
 - frontend web separado do backend em termos de entrega
 - banco relacional para persistencia transacional
 - conteinerizacao com Docker
 - provisionamento com Terraform
 - configuracao e deploy com Ansible
+- automacoes operacionais complementares com Shell Script e Python quando fizer sentido
 - automacao local por Make
 - pipeline de CI/CD no GitHub
+- nuvem principal na OVHcloud
 
 Decisao candidata principal:
 - adotar um monolito modular no backend, evitando microservicos no inicio
 
 Referencia:
 - [ADR-001-monolito-modular-devops-first.md](./adr/ADR-001-monolito-modular-devops-first.md)
+- [ADR-004-adotar-ovhcloud-single-host-com-evolucao-para-kubernetes.md](./adr/ADR-004-adotar-ovhcloud-single-host-com-evolucao-para-kubernetes.md)
 
 ## 4. Visao logica
 
@@ -83,7 +86,7 @@ sequenceDiagram
 ```mermaid
 flowchart LR
     U[Usuario Web] --> FE[Frontend Web]
-    FE --> API[API Backend Java]
+    FE --> API[API Backend Java Spring Boot]
     API --> DB[(PostgreSQL)]
     API --> OBS[Logs, Metrics e Tracing]
     API --> AUD[Auditoria de Negocio]
@@ -93,28 +96,48 @@ flowchart LR
 
 Arquitetura operacional inicial sugerida:
 - um ambiente local com containers para desenvolvimento
-- um ambiente remoto em nuvem para validacao e demonstracao
+- um ambiente remoto em OVHcloud Public Cloud para validacao e demonstracao
+- um host Linux unico no primeiro deploy
 - um reverse proxy na borda
 - frontend e backend empacotados e entregues separadamente
-- banco executado em servico gerenciado ou container dedicado, decisao ainda pendente
+- banco PostgreSQL em container no primeiro deploy, com evolucao planejada para servico gerenciado
+- Docker Compose como runtime inicial do ambiente remoto
 
 Possivel topologia inicial:
 
 ```mermaid
 flowchart TB
     GH[GitHub Repository] --> CI[GitHub Actions]
-    TF[Terraform] --> CLOUD[Cloud Environment]
+    TF[Terraform] --> CLOUD[OVHcloud Public Cloud]
     CI --> REG[Registry de Imagens]
     CI --> DEPLOY[Ansible Deploy]
-    DEPLOY --> RP[Reverse Proxy]
+    DEPLOY --> HOST[Linux Host]
+    HOST --> RP[Reverse Proxy]
     REG --> FE[Frontend Container]
     REG --> BE[Backend Container]
     RP --> FE
     RP --> BE
     BE --> DB[(PostgreSQL)]
-    BE --> OBS[Logs, Metrics e Health Checks]
+    BE --> OBS[Logs, Metrics, Health Checks]
     CLOUD --> RP
-    CLOUD --> DB
+    CLOUD --> HOST
+```
+
+### Evolucao arquitetural planejada
+
+Topologia alvo de evolucao:
+- migrar de Docker Compose em host unico para orchestracao em Kubernetes
+- avaliar OVHcloud Managed Kubernetes Service para provas praticas de orquestracao
+- avaliar migracao do banco para Managed PostgreSQL da OVHcloud
+- manter o mesmo modelo de pipeline, observabilidade e principios de configuracao por ambiente
+
+Representacao resumida da evolucao:
+
+```mermaid
+flowchart LR
+    A[Local + Docker Compose] --> B[OVHcloud Single Host + Compose]
+    B --> C[OVHcloud Managed PostgreSQL]
+    B --> D[OVHcloud Managed Kubernetes Service]
 ```
 
 ## 7. Ambientes
@@ -152,12 +175,13 @@ Comandos esperados futuramente:
 
 Esteira desejada:
 1. validacao de formato e qualidade
-2. build do backend e do frontend
+2. build do backend Spring Boot e do frontend
 3. execucao de testes automatizados
 4. empacotamento em imagens Docker
 5. publicacao de artefatos
 6. deploy automatizado em ambiente alvo
 7. smoke tests pos-deploy
+8. coleta de evidencias operacionais da release
 
 ### Observabilidade
 
@@ -167,6 +191,8 @@ Capacidades desejadas:
 - metricas basicas de aplicacao e infraestrutura
 - rastreamento basico de fluxo tecnico
 - correlacao de eventos de auditoria com acoes de negocio
+- estrategia de analise de falhas de startup, memoria, timeout e latencia
+- runbooks curtos para incidentes comuns
 
 ### Seguranca
 
@@ -176,6 +202,8 @@ Minimos esperados:
 - segregacao de configuracoes por ambiente
 - tratamento seguro de segredos
 - protecao basica de endpoints administrativos
+- definicao explicita de portas, DNS, proxy reverso e superficie de exposicao
+- reforco de fundamentos de rede e seguranca operacional
 
 ### Acessibilidade
 
@@ -186,13 +214,27 @@ O frontend deve considerar desde o inicio:
 - semantica de tabelas e controles
 - contraste e nao dependencia exclusiva de cor
 
+### Runtime e suporte a operacao
+
+Objetivos operacionais:
+- demonstrar como uma aplicacao Spring Boot sobe, e configurada e e operada
+- permitir troubleshooting basico de startup, integracao, rede, memoria e performance
+- manter artefatos de deploy, logs e configuracao acessiveis para diagnostico
+
+Artefatos esperados ao longo da implementacao:
+- `Dockerfile` do backend e do frontend
+- `docker-compose.yml` para ambiente local e remoto inicial
+- playbooks Ansible de bootstrap e deploy
+- scripts Shell e Python para automacoes operacionais pontuais
+- pipeline GitHub Actions com build, testes, imagem e deploy
+- runbooks de diagnostico e rollback
+
 ## 9. Decisoes em aberto
 
 - framework do frontend
-- provedor de nuvem principal
-- banco em container ou servico gerenciado no primeiro deploy
-- profundidade de observabilidade do MVP
 - estrategia de autenticacao inicial
+- profundidade de observabilidade do MVP
+- ponto exato de entrada da validacao em Kubernetes
 
 ## 10. Criterios de aceitacao arquitetural
 
@@ -201,3 +243,5 @@ O frontend deve considerar desde o inicio:
 - o deploy deve ser reprodutivel
 - modulos devem permitir evolucao sem acoplamento excessivo
 - requisitos de operacao devem estar presentes desde o MVP
+- a aplicacao Java deve poder ser diagnosticada e operada em ambiente Linux
+- a arquitetura deve deixar clara a trilha de evolucao de Compose para Kubernetes

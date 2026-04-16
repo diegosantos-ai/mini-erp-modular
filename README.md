@@ -2,17 +2,20 @@
 
 ![Status](https://img.shields.io/badge/status-planning-334155?style=flat-square)
 ![Java](https://img.shields.io/badge/Java-backend-334155?style=flat-square&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-platform-334155?style=flat-square&logo=springboot&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-data-334155?style=flat-square&logo=postgresql&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-containers-334155?style=flat-square&logo=docker&logoColor=white)
+![OVHcloud](https://img.shields.io/badge/OVHcloud-cloud-334155?style=flat-square)
 ![Terraform](https://img.shields.io/badge/Terraform-IaC-334155?style=flat-square&logo=terraform&logoColor=white)
 ![Ansible](https://img.shields.io/badge/Ansible-automation-334155?style=flat-square&logo=ansible&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI%2FCD-334155?style=flat-square&logo=githubactions&logoColor=white)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-roadmap-334155?style=flat-square&logo=kubernetes&logoColor=white)
 ![Make](https://img.shields.io/badge/Make-workflows-334155?style=flat-square&logo=gnu&logoColor=white)
 ![Accessibility](https://img.shields.io/badge/Accessibility-first-334155?style=flat-square)
 
 Projeto de estudo e portfolio orientado a engenharia de software e DevOps, com foco na construcao de um Mini-ERP web para o fluxo de compras, recebimento e controle de estoque.
 
-O objetivo nao e apenas entregar funcionalidade de negocio, mas demonstrar um processo completo de engenharia: documentacao antes da implementacao, modelagem de dominio, API, frontend acessivel, infraestrutura como codigo, automacao, testes, CI/CD e operacao em nuvem.
+O objetivo nao e apenas entregar funcionalidade de negocio, mas demonstrar um processo completo de engenharia: documentacao antes da implementacao, modelagem de dominio, API REST em Java com Spring Boot, frontend acessivel, infraestrutura como codigo, automacao, testes, CI/CD e operacao em nuvem.
 
 ## Status
 
@@ -38,14 +41,16 @@ Capacidades previstas:
 ## Foco de Engenharia
 
 O projeto foi desenhado para exercitar:
+- operacao de aplicacoes Java/Spring Boot em ambiente real
 - arquitetura de sistema corporativo pequeno com Java como linguagem principal
 - separacao entre produto, requisitos, arquitetura, dados, testes e riscos
 - padronizacao de fluxo local com `Make`
 - conteinerizacao com Docker
-- provisionamento com Terraform
+- provisionamento com Terraform na OVHcloud
 - configuracao e deploy com Ansible
 - pipeline de CI/CD com GitHub Actions
-- observabilidade, operacao e preocupacoes de acessibilidade desde o inicio
+- observabilidade, troubleshooting, operacao e preocupacoes de acessibilidade desde o inicio
+- evolucao planejada de Docker Compose para Kubernetes
 
 ## Documentacao
 
@@ -60,6 +65,7 @@ Leitura recomendada:
 6. [Governanca de Agentes de IA](./docs/06-governanca-agentes-ia.md)
 7. [ADR-001](./docs/adr/ADR-001-monolito-modular-devops-first.md)
 8. [ADR-003](./docs/adr/ADR-003-adotar-governanca-tutor-first-para-agentes-de-ia.md)
+9. [ADR-004](./docs/adr/ADR-004-adotar-ovhcloud-single-host-com-evolucao-para-kubernetes.md)
 
 ## Organizacao do Repositorio
 

@@ -186,11 +186,15 @@ Pirâmide de testes proposta:
 - testes de API para contratos e autorizacao
 - testes end-to-end para o fluxo principal
 - testes de infraestrutura e smoke tests para deploy
+- testes de startup, configuracao e runtime do Spring Boot
+- testes operacionais de observabilidade, backup e rollback quando aplicavel
 
 Cobertura minima desejada:
 - regras criticas de dominio com testes automatizados
 - fluxo principal do sistema validado de ponta a ponta
 - pipeline impedindo promocao de artefatos quebrados
+- endpoints de health check e logs validos no ambiente remoto
+- casos basicos de troubleshooting reproduziveis e documentados
 
 ## 7. Casos de teste iniciais
 
@@ -204,6 +208,11 @@ Cobertura minima desejada:
 - `CT-008`: impedir acesso de usuario sem permissao ao fluxo de aprovacao
 - `CT-009`: registrar evento de auditoria para acao critica
 - `CT-010`: executar deploy e validar health check
+- `CT-011`: subir a aplicacao Spring Boot com configuracao valida no ambiente Linux
+- `CT-012`: detectar falha de integracao por variavel ausente no deploy
+- `CT-013`: validar geracao de logs estruturados para request e erro
+- `CT-014`: validar rollback basico da stack apos falha de deploy
+- `CT-015`: executar teste de carga leve e observar latencia e consumo de recursos
 
 ## 8. Criterios de qualidade
 
@@ -213,6 +222,8 @@ Definicao de pronto para incremento relevante:
 - logs e mensagens de erro minimamente compreensiveis
 - requisito de acessibilidade considerado na tela entregue
 - impacto operacional conhecido
+- observabilidade minima considerada quando a mudanca afetar runtime ou deploy
+- procedimentos de troubleshooting atualizados quando a mudanca alterar operacao
 
 Qualidades prioritarias:
 - corretude funcional
@@ -220,6 +231,9 @@ Qualidades prioritarias:
 - manutenibilidade
 - deploy reprodutivel
 - observabilidade
+- operabilidade
+- debuggabilidade
+- desempenho basico monitoravel
 - acessibilidade
 
 ## 9. Pontos para detalhamento futuro
@@ -228,3 +242,5 @@ Qualidades prioritarias:
 - estrategia de versionamento de schema
 - retencao de logs e auditoria
 - massa de dados para testes e demonstracoes
+- estrategia de testes de performance e tuning
+- runbooks e postmortems de incidentes simulados
