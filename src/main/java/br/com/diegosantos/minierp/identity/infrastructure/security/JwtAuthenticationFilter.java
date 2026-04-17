@@ -50,7 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 if (!userDetails.isEnabled()) {
                     SecurityContextHolder.clearContext();
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Usuario inativo");
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Usuário inativo");
                     return;
                 }
 
