@@ -183,8 +183,7 @@ Leitura recomendada:
 |   |   |-- java/
 |   |   `-- resources/
 |-- pom.xml
-|-- README.md
-`-- preparação.md
+`-- README.md
 ```
 
 ## Próximos Passos
