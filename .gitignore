@@ -1,5 +1,9 @@
 roadmap-aprendizado.md
 preparação.md
 
-
 target
+
+# Python demo environment and caches
+.venv/
+__pycache__/
+*.pyc
