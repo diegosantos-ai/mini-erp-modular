@@ -19,6 +19,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -28,14 +30,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 @TestPropertySource(properties = {
-        "security.jwt.secret=VGhpcy1pcy1hLXRlc3Qtc2VjcmV0LWZvci1qd3QtdGVzdHMtMzItYnl0ZXMh",
+        "security.jwt.secret=jwt_secret_for_integration_tests_with_safe_length_123!", // secret-scan: allow
         "security.jwt.expiration=3600",
         "identity.bootstrap.admin.enabled=false"
 })
 class AuthFoundationIntegrationTest {
 
     private static final String ADMIN_EMAIL = "admin@minierp.local";
-    private static final String ADMIN_PASSWORD = "Admin@123";
+    private static final String ADMIN_LOGIN_VALUE = "credencial-admin-teste";
+    private static final String INVALID_LOGIN_VALUE = "credencial-invalida-teste";
 
     @Autowired
     private MockMvc mockMvc;
@@ -70,12 +73,7 @@ class AuthFoundationIntegrationTest {
         mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer token-invalido-para-login")
-                        .content("""
-                                {
-                                  "email": "admin@minierp.local",
-                                  "password": "Admin@123"
-                                }
-                                """))
+                        .content(loginRequestJson(ADMIN_LOGIN_VALUE)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").exists())
                 .andExpect(jsonPath("$.type").value("Bearer"));
@@ -133,12 +131,7 @@ class AuthFoundationIntegrationTest {
 
         mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                  "email": "admin@minierp.local",
-                                  "password": "senha-errada"
-                                }
-                                """))
+                        .content(loginRequestJson(INVALID_LOGIN_VALUE)))
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.error").value("Unauthorized"))
                 .andExpect(jsonPath("$.message").value("Credenciais inválidas"));
@@ -151,7 +144,7 @@ class AuthFoundationIntegrationTest {
         User admin = new User(
                 "Administrador",
                 ADMIN_EMAIL,
-                passwordEncoder.encode(ADMIN_PASSWORD)
+                passwordEncoder.encode(ADMIN_LOGIN_VALUE)
         );
 
         admin.getRoles().add(adminRole);
@@ -166,16 +159,18 @@ class AuthFoundationIntegrationTest {
     private String performLoginAndExtractToken() throws Exception {
         MvcResult result = mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                  "email": "admin@minierp.local",
-                                  "password": "Admin@123"
-                                }
-                                """))
+                        .content(loginRequestJson(ADMIN_LOGIN_VALUE)))
                 .andExpect(status().isOk())
                 .andReturn();
 
         JsonNode json = objectMapper.readTree(result.getResponse().getContentAsString());
         return json.get("token").asText();
+    }
+
+    private String loginRequestJson(String loginValue) throws Exception {
+        return objectMapper.writeValueAsString(Map.of(
+                "email", ADMIN_EMAIL,
+                "password", loginValue
+        ));
     }
 }

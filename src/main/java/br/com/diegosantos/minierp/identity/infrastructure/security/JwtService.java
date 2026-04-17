@@ -3,6 +3,7 @@ package br.com.diegosantos.minierp.identity.infrastructure.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.DecodingException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -88,7 +89,7 @@ public class JwtService {
 
         try {
             keyBytes = Decoders.BASE64.decode(normalizedSecret);
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException | DecodingException ex) {
             keyBytes = normalizedSecret.getBytes(StandardCharsets.UTF_8);
         }
 

@@ -146,9 +146,18 @@ curl http://localhost:8080/actuator/health
 Automação local com Make:
 
 ```bash
+make lint
 make run
 make test
 make ci
+```
+
+Pre-commit estruturado:
+
+```bash
+pip install pre-commit
+make pre-commit-install
+make pre-commit-run
 ```
 
 Login local:
