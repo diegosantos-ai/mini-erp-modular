@@ -40,7 +40,7 @@ public class SecurityConfig {
                                 writeJsonError(
                                         response,
                                         HttpServletResponse.SC_UNAUTHORIZED,
-                                        "Token ausente, invalido ou expirado"
+                                        "Token ausente, inválido ou expirado"
                                 )
                         )
                         .accessDeniedHandler((request, response, ex) ->
