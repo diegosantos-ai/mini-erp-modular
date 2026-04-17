@@ -100,8 +100,34 @@ Pré-requisitos:
 Subir a aplicação:
 
 ```bash
+Antes de subir a aplicação localmente, configure as variáveis de ambiente mínimas obrigatórias:
+
+- `JWT_SECRET`: segredo usado para assinar os tokens JWT. Deve estar em **Base64**.
+- `IDENTITY_BOOTSTRAP_ADMIN_ENABLED=true`: habilita a criação do usuário administrador no bootstrap.
+- `IDENTITY_BOOTSTRAP_ADMIN_EMAIL`: email do admin inicial.
+- `IDENTITY_BOOTSTRAP_ADMIN_PASSWORD`: senha do admin inicial.
+
+Exemplo (Linux/macOS):
+
+```bash
+export JWT_SECRET="ZmFrZS1qd3Qtc2VjcmV0LWZvci1sb2NhbC1kZXYtMTIzNDU2Nzg5MA=="
+export IDENTITY_BOOTSTRAP_ADMIN_ENABLED=true
+export IDENTITY_BOOTSTRAP_ADMIN_EMAIL="admin@minierp.local"
+export IDENTITY_BOOTSTRAP_ADMIN_PASSWORD="Admin@123"
 mvn spring-boot:run
 ```
+
+Exemplo (PowerShell):
+
+```powershell
+$env:JWT_SECRET="ZmFrZS1qd3Qtc2VjcmV0LWZvci1sb2NhbC1kZXYtMTIzNDU2Nzg5MA=="
+$env:IDENTITY_BOOTSTRAP_ADMIN_ENABLED="true"
+$env:IDENTITY_BOOTSTRAP_ADMIN_EMAIL="admin@minierp.local"
+$env:IDENTITY_BOOTSTRAP_ADMIN_PASSWORD="Admin@123"
+mvn spring-boot:run
+```
+
+> Exemplo de `JWT_SECRET` em Base64 apenas para desenvolvimento local. Em ambientes reais, gere um segredo forte e mantenha-o fora do versionamento.
 
 Health check:
 
@@ -118,7 +144,7 @@ curl -X POST http://localhost:8080/api/auth/login \
 ```
 
 Observação:
-o ambiente local atual usa o bootstrap do administrador definido em [application.properties](./src/main/resources/application.properties). O arquivo [application-example.properties](./src/main/resources/application-example.properties) documenta o formato esperado para configuração externa por variáveis de ambiente.
+o arquivo [application.properties](./src/main/resources/application.properties) não substitui a configuração mínima acima para o fluxo documentado no `README`. O arquivo [application-example.properties](./src/main/resources/application-example.properties) documenta o formato esperado para configuração externa por variáveis de ambiente.
 
 ## Foco de Engenharia
 
