@@ -27,10 +27,11 @@ Leitura sugerida:
 4. [04-dados-qualidade.md](./04-dados-qualidade.md)
 5. [05-planejamento-riscos.md](./05-planejamento-riscos.md)
 6. [06-governanca-agentes-ia.md](./06-governanca-agentes-ia.md)
-7. [adr/ADR-001-monolito-modular-devops-first.md](./adr/ADR-001-monolito-modular-devops-first.md)
-8. [adr/ADR-002-diagramas-como-codigo-com-mermaid.md](./adr/ADR-002-diagramas-como-codigo-com-mermaid.md)
-9. [adr/ADR-003-adotar-governanca-tutor-first-para-agentes-de-ia.md](./adr/ADR-003-adotar-governanca-tutor-first-para-agentes-de-ia.md)
-10. [adr/ADR-004-adotar-ovhcloud-single-host-com-evolucao-para-kubernetes.md](./adr/ADR-004-adotar-ovhcloud-single-host-com-evolucao-para-kubernetes.md)
+7. [07-observabilidade-operacao.md](./07-observabilidade-operacao.md)
+8. [adr/ADR-001-monolito-modular-devops-first.md](./adr/ADR-001-monolito-modular-devops-first.md)
+9. [adr/ADR-002-diagramas-como-codigo-com-mermaid.md](./adr/ADR-002-diagramas-como-codigo-com-mermaid.md)
+10. [adr/ADR-003-adotar-governanca-tutor-first-para-agentes-de-ia.md](./adr/ADR-003-adotar-governanca-tutor-first-para-agentes-de-ia.md)
+11. [adr/ADR-004-adotar-ovhcloud-single-host-com-evolucao-para-kubernetes.md](./adr/ADR-004-adotar-ovhcloud-single-host-com-evolucao-para-kubernetes.md)
 
 Mapa dos artefatos:
 - `01-visao-produto.md`: contexto do produto, objetivos, escopo, stakeholders e perfis de usuario
@@ -39,6 +40,7 @@ Mapa dos artefatos:
 - `04-dados-qualidade.md`: modelo de dados conceitual, diagrama de dominio, estrategia de testes e criterios de aceite
 - `05-planejamento-riscos.md`: epicos, priorizacao, milestones, riscos, restricoes e dependencias
 - `06-governanca-agentes-ia.md`: contrato de uso de agentes, modos operacionais e gates por risco
+- `07-observabilidade-operacao.md`: estrategia inicial de health checks, logs, metricas e troubleshooting
 - `adr/`: decisoes arquiteturais relevantes
 
 Padrao para diagramas:

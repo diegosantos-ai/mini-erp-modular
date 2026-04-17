@@ -85,6 +85,14 @@ public class User {
         return roles;
     }
 
+    public void desativar() {
+        this.ativo = false;
+    }
+
+    public void ativar() {
+        this.ativo = true;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }

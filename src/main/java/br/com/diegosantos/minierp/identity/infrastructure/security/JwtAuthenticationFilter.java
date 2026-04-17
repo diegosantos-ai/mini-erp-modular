@@ -19,6 +19,12 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    public static final String AUTH_ERROR_MESSAGE_ATTRIBUTE = "jwt.auth.error.message";
+
+    private static final String INVALID_TOKEN_MESSAGE = "Token ausente, inválido ou expirado";
+    private static final String INACTIVE_USER_MESSAGE = "Usuário inativo";
+    private static final String AUTHENTICATED_USER_NOT_FOUND_MESSAGE = "Usuário autenticado não encontrado";
+
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
@@ -49,8 +55,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
                 if (!userDetails.isEnabled()) {
-                    SecurityContextHolder.clearContext();
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Usuário inativo");
+                    registerAuthenticationFailure(request, INACTIVE_USER_MESSAGE);
+                    filterChain.doFilter(request, response);
                     return;
                 }
 
@@ -67,12 +73,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     );
 
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                } else {
+                    registerAuthenticationFailure(request, INVALID_TOKEN_MESSAGE);
                 }
             }
-        } catch (JwtException | IllegalArgumentException | UsernameNotFoundException ex) {
-            SecurityContextHolder.clearContext();
+        } catch (UsernameNotFoundException ex) {
+            registerAuthenticationFailure(request, AUTHENTICATED_USER_NOT_FOUND_MESSAGE);
+        } catch (JwtException | IllegalArgumentException ex) {
+            registerAuthenticationFailure(request, INVALID_TOKEN_MESSAGE);
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    private void registerAuthenticationFailure(HttpServletRequest request, String message) {
+        SecurityContextHolder.clearContext();
+        request.setAttribute(AUTH_ERROR_MESSAGE_ATTRIBUTE, message);
     }
 }

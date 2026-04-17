@@ -13,8 +13,11 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(InvalidCredentialsException.class)
-    public ResponseEntity<Map<String, Object>> handleInvalidCredentials(InvalidCredentialsException ex) {
+    @ExceptionHandler({
+            InvalidCredentialsException.class,
+            AuthenticatedUserNotFoundException.class
+    })
+    public ResponseEntity<Map<String, Object>> handleUnauthorized(RuntimeException ex) {
         Map<String, Object> body = Map.of(
                 "timestamp", OffsetDateTime.now(),
                 "status", HttpStatus.UNAUTHORIZED.value(),

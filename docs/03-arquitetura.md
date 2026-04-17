@@ -160,11 +160,16 @@ Responsabilidades do `Makefile`:
 - encapsular comandos de Docker, Terraform e Ansible
 - reduzir variacao de uso entre ambientes
 
+Comandos iniciais implementados:
+- `make help`
+- `make clean`
+- `make run`
+- `make test`
+- `make package`
+- `make ci`
+
 Comandos esperados futuramente:
 - `make dev`
-- `make test`
-- `make lint`
-- `make build`
 - `make docker-build`
 - `make infra-plan`
 - `make infra-apply`
@@ -173,7 +178,13 @@ Comandos esperados futuramente:
 
 ### CI/CD
 
-Esteira desejada:
+Esteira atual:
+1. checkout do repositorio
+2. setup do Java 17
+3. execucao de `make ci`
+4. validacao automatica da fundacao tecnica do backend
+
+Esteira desejada para evolucao:
 1. validacao de formato e qualidade
 2. build do backend Spring Boot e do frontend
 3. execucao de testes automatizados
@@ -193,6 +204,9 @@ Capacidades desejadas:
 - correlacao de eventos de auditoria com acoes de negocio
 - estrategia de analise de falhas de startup, memoria, timeout e latencia
 - runbooks curtos para incidentes comuns
+
+Referencia detalhada:
+- [07-observabilidade-operacao.md](./07-observabilidade-operacao.md)
 
 ### Seguranca
 
@@ -233,7 +247,6 @@ Artefatos esperados ao longo da implementacao:
 
 - framework do frontend
 - estrategia de autenticacao inicial
-- profundidade de observabilidade do MVP
 - ponto exato de entrada da validacao em Kubernetes
 
 ## 10. Criterios de aceitacao arquitetural

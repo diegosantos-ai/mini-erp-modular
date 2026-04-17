@@ -29,8 +29,11 @@ Base implementada até aqui:
 - autenticação stateless com JWT
 - endpoints `POST /api/auth/login` e `GET /api/auth/me`
 - validação de entrada com Bean Validation
-- tratamento de erros básicos para autenticação e request inválido
+- tratamento coerente de erros para autenticação e request inválido
 - endpoint operacional `GET /actuator/health`
+- testes automatizados da fundação de autenticação e health
+- automação local com `Makefile`
+- pipeline inicial de CI com GitHub Actions
 
 ## Escopo do Produto
 
@@ -58,6 +61,8 @@ O backend atual já demonstra uma base funcional de segurança e operação:
 - bootstrap inicial de perfis e usuário administrador controlado por configuração
 - versionamento da estrutura de banco desde o início
 - health check para uso futuro em deploy, monitoramento e smoke tests
+- contrato consistente de `401` para falhas de autenticação no fluxo protegido
+- cobertura automatizada do fluxo mínimo de autenticação
 
 Principais endpoints disponíveis hoje:
 
@@ -80,13 +85,14 @@ Implementado neste estágio:
 - Bean Validation
 - Spring Boot Actuator
 - JWT com `jjwt`
+- Makefile
+- GitHub Actions CI inicial
 
 Planejado para as próximas etapas:
 - PostgreSQL
 - Docker e Docker Compose
 - Terraform
 - Ansible
-- GitHub Actions
 - OVHcloud
 - observabilidade mais profunda
 - evolução para validação em Kubernetes
@@ -137,6 +143,14 @@ Health check:
 curl http://localhost:8080/actuator/health
 ```
 
+Automação local com Make:
+
+```bash
+make run
+make test
+make ci
+```
+
 Login local:
 
 ```bash
@@ -170,9 +184,10 @@ Leitura recomendada:
 4. [Dados e Qualidade](./docs/04-dados-qualidade.md)
 5. [Planejamento, Priorização e Riscos](./docs/05-planejamento-riscos.md)
 6. [Governança de Agentes de IA](./docs/06-governanca-agentes-ia.md)
-7. [ADR-001](./docs/adr/ADR-001-monolito-modular-devops-first.md)
-8. [ADR-003](./docs/adr/ADR-003-adotar-governanca-tutor-first-para-agentes-de-ia.md)
-9. [ADR-004](./docs/adr/ADR-004-adotar-ovhcloud-single-host-com-evolucao-para-kubernetes.md)
+7. [Observabilidade e Operação](./docs/07-observabilidade-operacao.md)
+8. [ADR-001](./docs/adr/ADR-001-monolito-modular-devops-first.md)
+9. [ADR-003](./docs/adr/ADR-003-adotar-governanca-tutor-first-para-agentes-de-ia.md)
+10. [ADR-004](./docs/adr/ADR-004-adotar-ovhcloud-single-host-com-evolucao-para-kubernetes.md)
 
 ## Estrutura do Repositório
 
@@ -180,6 +195,8 @@ Leitura recomendada:
 .
 |-- AGENTS.md
 |-- docs/
+|-- .github/
+|-- Makefile
 |-- src/
 |   |-- main/
 |   |   |-- java/
@@ -193,7 +210,7 @@ Leitura recomendada:
 Próxima frente natural de evolução:
 - autorização por perfis em endpoints reais de negócio
 - início dos módulos de compras, recebimento e estoque
-- testes automatizados do fluxo de autenticação
+- logs estruturados e runbooks básicos de troubleshooting
 - troca do banco de desenvolvimento para algo mais próximo do ambiente-alvo
 - containerização e preparação de deploy
 

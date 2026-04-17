@@ -1,6 +1,7 @@
 package br.com.diegosantos.minierp.identity.infrastructure.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,10 +23,14 @@ import java.util.Map;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private static final String DEFAULT_UNAUTHORIZED_MESSAGE = "Token ausente, inválido ou expirado";
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final ObjectMapper objectMapper;
+
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, ObjectMapper objectMapper) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.objectMapper = objectMapper;
     }
 
     @Bean
@@ -40,7 +45,7 @@ public class SecurityConfig {
                                 writeJsonError(
                                         response,
                                         HttpServletResponse.SC_UNAUTHORIZED,
-                                        "Token ausente, inválido ou expirado"
+                                        resolveUnauthorizedMessage(request)
                                 )
                         )
                         .accessDeniedHandler((request, response, ex) ->
@@ -77,7 +82,17 @@ public class SecurityConfig {
         body.put("error", status == HttpServletResponse.SC_UNAUTHORIZED ? "Unauthorized" : "Forbidden");
         body.put("message", message);
 
-        new ObjectMapper().writeValue(response.getWriter(), body);
+        objectMapper.writeValue(response.getWriter(), body);
+    }
+
+    private String resolveUnauthorizedMessage(HttpServletRequest request) {
+        Object message = request.getAttribute(JwtAuthenticationFilter.AUTH_ERROR_MESSAGE_ATTRIBUTE);
+
+        if (message instanceof String errorMessage && !errorMessage.isBlank()) {
+            return errorMessage;
+        }
+
+        return DEFAULT_UNAUTHORIZED_MESSAGE;
     }
 
     @Bean
