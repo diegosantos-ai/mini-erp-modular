@@ -1,6 +1,5 @@
 package br.com.diegosantos.minierp.identity.api;
 
-import br.com.diegosantos.minierp.common.exception.InvalidCredentialsException;
 import br.com.diegosantos.minierp.identity.api.dto.LoginRequest;
 import br.com.diegosantos.minierp.identity.api.dto.LoginResponse;
 import br.com.diegosantos.minierp.identity.api.dto.MeResponse;
@@ -39,10 +38,6 @@ public class AuthController {
 
     @GetMapping("/me")
     public ResponseEntity<MeResponse> me(@AuthenticationPrincipal UserDetails userDetails) {
-        if (userDetails == null) {
-            throw new InvalidCredentialsException("Token invalido ou ausente");
-        }
-
         MeResponse response = getCurrentUserService.execute(userDetails.getUsername());
         return ResponseEntity.ok(response);
     }
