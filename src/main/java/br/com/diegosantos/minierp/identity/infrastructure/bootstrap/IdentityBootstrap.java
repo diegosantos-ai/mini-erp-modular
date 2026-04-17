@@ -7,6 +7,7 @@ import br.com.diegosantos.minierp.identity.infrastructure.persistence.RoleReposi
 import br.com.diegosantos.minierp.identity.infrastructure.persistence.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -55,26 +56,43 @@ public class IdentityBootstrap implements CommandLineRunner {
         }
 
         validateAdminBootstrapConfiguration();
-
-        if (userRepository.findByEmail(adminEmail).isEmpty()) {
-            Role adminRole = roleRepository.findByName(RoleName.ADMIN)
-                    .orElseThrow(() -> new IllegalStateException("Role ADMIN não encontrada"));
-
-            User admin = new User(
-                    adminName,
-                    adminEmail,
-                    passwordEncoder.encode(adminPassword)
-            );
-
-            admin.getRoles().add(adminRole);
-
-            userRepository.save(admin);
-        }
+        ensureAdminExists();
     }
 
     private void ensureRoleExists(RoleName roleName) {
         if (roleRepository.findByName(roleName).isEmpty()) {
-            roleRepository.save(new Role(roleName));
+            try {
+                roleRepository.save(new Role(roleName));
+            } catch (DataIntegrityViolationException ex) {
+                if (roleRepository.findByName(roleName).isEmpty()) {
+                    throw ex;
+                }
+            }
+        }
+    }
+
+    private void ensureAdminExists() {
+        if (userRepository.findByEmail(adminEmail).isPresent()) {
+            return;
+        }
+
+        Role adminRole = roleRepository.findByName(RoleName.ADMIN)
+                .orElseThrow(() -> new IllegalStateException("Role ADMIN não encontrada"));
+
+        User admin = new User(
+                adminName,
+                adminEmail,
+                passwordEncoder.encode(adminPassword)
+        );
+
+        admin.getRoles().add(adminRole);
+
+        try {
+            userRepository.save(admin);
+        } catch (DataIntegrityViolationException ex) {
+            if (userRepository.findByEmail(adminEmail).isEmpty()) {
+                throw ex;
+            }
         }
     }
 
