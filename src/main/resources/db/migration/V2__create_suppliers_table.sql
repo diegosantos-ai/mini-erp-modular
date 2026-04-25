@@ -1,0 +1,10 @@
+CREATE TABLE suppliers (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR(160) NOT NULL,
+    document_number VARCHAR(32) NOT NULL UNIQUE,
+    email VARCHAR(160),
+    phone VARCHAR(40),
+    active BOOLEAN NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL
+);

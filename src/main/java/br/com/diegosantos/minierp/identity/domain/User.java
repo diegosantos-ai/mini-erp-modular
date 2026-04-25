@@ -81,6 +81,14 @@ public class User {
         return ativo;
     }
 
+    public void ativar() {
+        this.ativo = true;
+    }
+
+    public void desativar() {
+        this.ativo = false;
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }

@@ -1,0 +1,30 @@
+default_install_hook_types:
+  - pre-commit
+  - pre-push
+
+repos:
+  - repo: local
+    hooks:
+      - id: lint-secrets
+        name: lint-secrets
+        entry: make lint-secrets
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-commit
+
+      - id: lint-java
+        name: lint-java
+        entry: make lint-java
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-commit
+
+      - id: ci-pre-push
+        name: ci-pre-push
+        entry: make ci
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push

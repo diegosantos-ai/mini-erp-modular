@@ -23,9 +23,11 @@ import java.util.Map;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final ObjectMapper objectMapper;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, ObjectMapper objectMapper) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.objectMapper = objectMapper;
     }
 
     @Bean
@@ -40,7 +42,7 @@ public class SecurityConfig {
                                 writeJsonError(
                                         response,
                                         HttpServletResponse.SC_UNAUTHORIZED,
-                                        "Token ausente, inválido ou expirado"
+                                        resolveUnauthorizedMessage(request)
                                 )
                         )
                         .accessDeniedHandler((request, response, ex) ->
@@ -77,7 +79,17 @@ public class SecurityConfig {
         body.put("error", status == HttpServletResponse.SC_UNAUTHORIZED ? "Unauthorized" : "Forbidden");
         body.put("message", message);
 
-        new ObjectMapper().writeValue(response.getWriter(), body);
+        objectMapper.writeValue(response.getWriter(), body);
+    }
+
+    private String resolveUnauthorizedMessage(jakarta.servlet.http.HttpServletRequest request) {
+        Object attribute = request.getAttribute(JwtAuthenticationFilter.AUTH_ERROR_MESSAGE_ATTR);
+
+        if (attribute instanceof String message && !message.isBlank()) {
+            return message;
+        }
+
+        return "Token ausente, inválido ou expirado";
     }
 
     @Bean

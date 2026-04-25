@@ -19,6 +19,8 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    public static final String AUTH_ERROR_MESSAGE_ATTR = "auth_error_message";
+
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
@@ -50,7 +52,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 if (!userDetails.isEnabled()) {
                     SecurityContextHolder.clearContext();
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Usuário inativo");
+                    request.setAttribute(AUTH_ERROR_MESSAGE_ATTR, "Usuário inativo");
+                    filterChain.doFilter(request, response);
                     return;
                 }
 

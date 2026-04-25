@@ -129,6 +129,9 @@ Mudancas importantes devem refletir, quando aplicavel, em:
 - GitHub Projects
 - `README.md`
 
+Convencoes de entrega, Definition of Done e fluxo de branch/PR devem permanecer alinhados com:
+- `docs/08-definition-of-done-e-convencoes.md`
+
 O arquivo `roadmap-aprendizado.md` continua sendo material pessoal de apoio e nao substitui a documentacao oficial.
 
 ## Relacao com a skill
