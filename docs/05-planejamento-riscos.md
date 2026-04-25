@@ -105,6 +105,17 @@ Tipos de item sugeridos:
 - bug
 - doc
 
+Regras operacionais do board:
+- `P0` significa bloqueador imediato do proximo passo executavel, nao apenas importancia abstrata
+- `P1` significa proxima frente relevante apos os bloqueadores imediatos
+- `P2` significa trabalho posterior ou dependente de etapas anteriores
+- itens `XL` devem ser tratados como epicos e quebrados antes de entrar em `Ready`
+- `Ready` deve conter somente itens pequenos o suficiente e sem bloqueio imediato
+- `In Progress` deve refletir trabalho realmente em execucao, idealmente um item ativo por vez
+
+Referencia complementar:
+- ver `08-definition-of-done-e-convencoes.md`
+
 ## 7. Registro inicial de riscos
 
 - `R-001`: escopo maior do que a capacidade de entrega individual
