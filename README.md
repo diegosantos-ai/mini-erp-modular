@@ -38,6 +38,7 @@ Base implementada até aqui:
 - automação local com `Makefile`
 - pipeline inicial de CI com GitHub Actions
 - PostgreSQL local via Docker Compose
+- cadastro de fornecedores e produtos (módulo de catálogo)
 
 Direção de entrega:
 - concluir Compras, Recebimento e Estoque na `v1.0.0`

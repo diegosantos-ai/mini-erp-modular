@@ -56,7 +56,7 @@ Entregar um MVP funcional de Mini-ERP de Compras com backend Java/Spring Boot, a
 - [x] V1-02 Configurar PostgreSQL com Docker Compose
 - [x] V1-03 Criar testes de autenticacao e autorizacao
 - [x] V1-04 Implementar cadastro de fornecedores
-- [ ] V1-05 Implementar cadastro de produtos
+- [x] V1-05 Implementar cadastro de produtos
 - [ ] V1-06 Implementar requisicao de compra
 - [ ] V1-07 Implementar aprovacao/rejeicao de requisicao
 - [ ] V1-08 Implementar pedido de compra
@@ -403,13 +403,13 @@ PATCH  /api/products/{id}/deactivate
 
 ## Critérios de aceite
 
-- [ ] Produto pode ser cadastrado.
-- [ ] Produto pode ser consultado por ID.
-- [ ] Lista de produtos retorna registros ativos.
-- [ ] Produto pode ser atualizado.
-- [ ] SKU não pode ser duplicado.
-- [ ] Migration criada sem alterar migrations antigas.
-- [ ] Testes básicos implementados.
+- [x] Produto pode ser cadastrado.
+- [x] Produto pode ser consultado por ID.
+- [x] Lista de produtos retorna registros ativos.
+- [x] Produto pode ser atualizado.
+- [x] SKU não pode ser duplicado.
+- [x] Migration criada sem alterar migrations antigas.
+- [x] Testes básicos implementados.
 
 ## Validação
 
